@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .uploadform {
+            background: lightgray;
+            padding: 50px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        .uploadFieldTable{
+            margin-bottom: 20px;
+        }
+        .errormessage{
+            color: red;
+            text-align: center;
+        }
+        .successmessage{
+            color: green;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td {
+            text-align: left;
+            padding: 20px 20px 20px 75px;
+        }
+        #uploadFormSubmitButton {
+            margin-left: 35%;
+            padding: 10px;
+        }
+        .heading{
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            const messageholder = document.getElementById('messageholder');
+
+            function validation(){
+                const file1 = document.getElementById("file1");
+                const file2 = document.getElementById("file2");
+                if (file1.value == "" || file2.value == "") {
+                    if (file1.value == "") {
+                        messageholder.innerHTML = '<h4 class="errormessage">Please select HR Record file</h4>';
+                    }
+                    if (file2.value == "") {
+                        messageholder.innerHTML += '<h4 class="errormessage">Please select Employee Record file</h4>';
+                    }
+                    return false;
+                } else{
+                    return true;
+                }
+            }
+
+            document.getElementById("uploadFormSubmitButton").addEventListener("click", function () {
+                messageholder.innerHTML = '';
+                if (validation())
+                {
+                    document.getElementById("reportGenerateForm").submit();
+                    messageholder.innerHTML = '<h4 class="successmessage">Report generated successfully</h4>';
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="uploadform">
+<h1 class="heading">Excel differcence app</h1>
+    <div id="messageholder">
+    </div>
+<form method="POST" action="/excel/upload" enctype="multipart/form-data" id="reportGenerateForm">
+    <table class="uploadFieldTable">
+        <tbody>
+        <tr>
+            <td><b>HR Record :</b></td>
+            <td><input type="file" name="file1" id="file1"></td>
+        </tr>
+        <tr>
+            <td><b>Employee Record :</b></td>
+            <td><input type="file" name="file2" id="file2"></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+    <div>
+        <button  id="uploadFormSubmitButton">Generate the report</button>
+    </div>
+</div>
+</body>
+</html>
